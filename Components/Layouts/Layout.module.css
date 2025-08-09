@@ -1,0 +1,47 @@
+.faicons {
+  text-align: center;
+  vertical-align: middle;
+  padding-left: 0.65rem;
+  padding-right: 0px;
+  cursor: pointer;
+}
+
+.navside {
+  width: 320px;
+  height: 100%;
+  display: inline-flex;
+  overflow-x: hidden;
+}
+
+.mainside {
+  width: calc(100vw - 320px);
+  height: calc(100vh - 60px);
+  display: inline-flex;
+  justify-content: center;
+  position: absolute;
+  left: 320px;
+  top: 60px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.navsidecollapse {
+  width: 47px;
+  height: 100%;
+  display: inline-flex;
+  overflow-x: hidden;
+}
+
+.mainsidecollapse {
+  width: calc(100vw - 60px);
+  height: calc(100vh - 60px);
+  position: absolute;
+  left: 60px;
+  top: 60px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
