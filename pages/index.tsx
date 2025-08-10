@@ -180,7 +180,8 @@ const Home: NextPage = () => {
                   >
                     <div
                       className="cursor-pointer w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                       style={{
                         backgroundColor: "#262626",
                         borderBottomWidth: "0.3rem",
@@ -197,7 +198,8 @@ const Home: NextPage = () => {
                   <Link passHref target="_blank" href="https://github.com/Rage4005">
                     <div
                       className="cursor-pointer w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                       style={{
                         backgroundColor: "#262626",
                         borderBottomWidth: "0.3rem",
@@ -218,7 +220,8 @@ const Home: NextPage = () => {
                   >
                     <div
                       className="cursor-pointer w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                       style={{
                         backgroundColor: "#262626",
                         borderBottomWidth: "0.3rem",
@@ -234,7 +237,8 @@ const Home: NextPage = () => {
                 <div className="mt-4">
                   <div
                     className="w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                     style={{
                       backgroundColor: "#262626",
                       borderBottomWidth: "0.3rem",
@@ -249,7 +253,8 @@ const Home: NextPage = () => {
                 <div className="mt-4">
                   <div
                     className="w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                     style={{
                       backgroundColor: "#262626",
                       borderBottomWidth: "0.3rem",
@@ -267,7 +272,8 @@ const Home: NextPage = () => {
                 <div className="mt-4">
                   <div
                     className="w-full flex justify-start items-center pl-2 pr-2 p-1 
-                        rounded-sm gap-2 border-b  border-blue-500 "
+                        rounded-sm gap-2 border-b border-blue-500 transition-all duration-300 ease-in-out
+                        hover:bg-gray-700 hover:translate-x-1 hover:shadow-lg hover:shadow-blue-500/20"
                     style={{
                       backgroundColor: "#262626",
                       borderBottomWidth: "0.3rem",
