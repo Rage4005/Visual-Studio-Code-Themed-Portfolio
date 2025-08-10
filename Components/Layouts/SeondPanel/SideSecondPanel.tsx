@@ -51,10 +51,6 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
       setActiveCurrentSubLink("Gaming");
     } else if (currentSubLink === "Anime") {
       setActiveCurrentSubLink("Anime");
-    } else if (currentSubLink === "Learning") {
-      setActiveCurrentSubLink("Learning");
-    } else if (currentSubLink === "Startup") {
-      setActiveCurrentSubLink("Startup");
     }
   });
 
@@ -301,21 +297,7 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
             {!miscClose && (
               <div className="show-pre">
                 <ul>
-                  <li
-                    onClick={() => {
-                      router.push("/Hobbies");
-                      isTabletOrMobile ? props.closeSideMenu() : null;
-                    }}
-                    className={` smallSide ${
-                      activeCurrentSubLink === "Hobbies" ? "active" : ""
-                    }`}
-                  >
-                    <SidePanelSubLink
-                      name="Hobbies.cpp"
-                      link="/Hobbies"
-                      icon={<span className="icons8-cplusplus"></span>}
-                    />
-                  </li>
+
                   <li
                     onClick={() => {
                       router.push("/Blogs");
@@ -359,36 +341,6 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                       name="Anime.jsx"
                       link="/Anime"
                       icon={<span className="icons8-react"></span>}
-                    />
-                  </li>
-                  <li
-                    onClick={() => {
-                      router.push("/Learning");
-                      isTabletOrMobile ? props.closeSideMenu() : null;
-                    }}
-                    className={` smallSide ${
-                      activeCurrentSubLink === "Learning" ? "active" : ""
-                    }`}
-                  >
-                    <SidePanelSubLink
-                      name="Learning.ts"
-                      link="/Learning"
-                      icon={<span className="icons8-angularjs"></span>}
-                    />
-                  </li>
-                  <li
-                    onClick={() => {
-                      router.push("/Startup");
-                      isTabletOrMobile ? props.closeSideMenu() : null;
-                    }}
-                    className={` smallSide ${
-                      activeCurrentSubLink === "Startup" ? "active" : ""
-                    }`}
-                  >
-                    <SidePanelSubLink
-                      name="Startup.js"
-                      link="/Startup"
-                      icon={<span className="icons8-nodejs"></span>}
                     />
                   </li>
                 </ul>

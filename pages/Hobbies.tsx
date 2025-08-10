@@ -101,38 +101,6 @@ const Hobbies: NextPage = () => {
                         </h2>
                       </div>
                     </Link>
-                  </div>{" "}
-                  <div className="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <Link href="/Learning">
-                      <div>
-                        <div className="bg-white rounded-md mb-2 flex justify-center items-center">
-                          <img
-                            src="https://img.icons8.com/ios/50/000000/learning.png"
-                            alt="Learning icon"
-                            className="h-20 rounded-md p-2"
-                          />{" "}
-                        </div>
-                        <h2 className="text-white text-center font-semibold">
-                          Learning
-                        </h2>
-                      </div>
-                    </Link>
-                  </div>
-                  <div className="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <Link href="/Startup">
-                      <div>
-                        <div className="bg-white rounded-md mb-2 flex justify-center items-center">
-                          <img
-                            src="https://img.icons8.com/ios/50/000000/rocket--v1.png"
-                            className="h-20 p-4 rounded-md"
-                            alt="Startup icon"
-                          />
-                        </div>
-                        <h2 className="text-white text-center font-semibold">
-                          StartUp
-                        </h2>
-                      </div>
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -202,42 +170,6 @@ const Hobbies: NextPage = () => {
                         </div>
                         <h2 className="text-white text-center font-semibold">
                           Animes
-                        </h2>
-                      </div>
-                    </Link>
-                  </div>{" "}
-                  <div className="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <Link href="/Learning">
-                      <div>
-                        <div className="bg-white rounded-md mb-2 flex justify-center items-center">
-                          <img
-                            src="https://img.icons8.com/ios/50/000000/learning.png"
-                            alt="Learning icon"
-                            className=" rounded-md p-2"
-                            width="80"
-                            height="auto"
-                          />{" "}
-                        </div>
-                        <h2 className="text-white text-center font-semibold">
-                          Learning
-                        </h2>
-                      </div>
-                    </Link>
-                  </div>
-                  <div className="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <Link href="/Startup">
-                      <div>
-                        <div className="bg-white rounded-md mb-2 flex justify-center items-center">
-                          <img
-                            src="https://img.icons8.com/ios/50/000000/rocket--v1.png"
-                            className="p-4 rounded-md"
-                            alt="Startup icon"
-                            width="80"
-                            height="auto"
-                          />
-                        </div>
-                        <h2 className="text-white text-center font-semibold">
-                          StartUp
                         </h2>
                       </div>
                     </Link>
