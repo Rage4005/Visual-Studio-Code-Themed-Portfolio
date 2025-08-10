@@ -1,9 +1,9 @@
 // Replace below project details with your project details. Add all your projects details here as per below object structure, and it will populate it in projects sections.
 export const projectsdata = () => [
   {
-    title: "Project Title",
-    name: "Project Name",
-    banner: "/xporthumb.png",
+    title: "A digital distribution platform for video games",
+    name: "Arsenal",
+    banner: "/ARSENAL.png",
     skills: [
       "JavaScript",
       "Node.js",
@@ -13,27 +13,28 @@ export const projectsdata = () => [
       "Bootsrap",
       "CSS3",
     ],
-    description: `An Online Service to easily Share large or small files of any format, with anyone around the world. `,
+    description: `A digital distribution platform for video games, providing a seamless experience for gamers to discover, purchase, and play games.`,
     //(Optional) Live link of your project, if hosted
     link: null,
-    github: "https://github.com/SRX9/Xport---OOSE-Project",
+    github: "https://github.com/Rage4005/Game-Store-System.git",
     // Logo Image of your project
-    logo: "/xportlogo.jpg",
+    logo: "/xport/bobo.jpg",
     features: [
       "Upload and share any file of size upto 1GB of any format like text file, images, videos, application, pdf, excel, ppt and more.",
       "Other important sections like User Profile, Tracking of number of files shared, amount of data transported, authentication and more.",
     ],
     // Screenshots of your project
     snapshots: [
-      "/xport/Send1-min.png",
-      "/xport/send2-min.png",
-      "/xport/send3-min.png",
-      "/xport/Recieve-min.png",
-      "/xport/User profile-min.png",
-      "/xport/login-min.png",
-      "/xport/register-min.png",
-      "/xport/edit account-min.png",
-      "/xport/delete-min.png",
+      "/xport/Screenshot 2025-04-23 024815 - Copy.png",
+      "/xport/Screenshot 2025-04-23 024833 - Copy.png",
+      "/xport/Screenshot 2025-04-23 024904 - Copy.png",
+      "/xport/Screenshot 2025-04-23 024904.png",
+      "/xport/Screenshot 2025-04-23 024915 - Copy.png",
+      "/xport/Screenshot 2025-04-23 024924 - Copy.png",
+      "/xport/Screenshot 2025-04-23 025011.png",
+      "/xport/Screenshot 2025-04-23 025025.png",
+      "/xport/Screenshot 2025-04-23 025033.png",
+      "/xport/Screenshot 2025-04-23 025100.png"
     ],
     height: 1900,
     others: [

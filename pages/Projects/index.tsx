@@ -47,7 +47,7 @@ const Projects: NextPage = (props: any) => {
           Projects
         </h2>
         <p className=" font-medium pl-5 pb-2 text-gray-400 text-md pt-1 w-4/5 ">
-          College and Side Projects for practice.
+        A showcase of my work and creations
         </p>
         {!isTabletOrMobile ? (
           <div className="w-full mt-3 mb-5 pb-5 grid grid-cols-1s xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 xs:grid-cols-1 ">
@@ -59,7 +59,7 @@ const Projects: NextPage = (props: any) => {
                       <div className="pr-3 pl-3">
                         <Image
                           className="rounded-xl"
-                          src={index === 0 ? "/ayethumb.jpg" : obj.banner}
+                          src={index === 0 ? "/ARSENAL.png" : obj.banner}
                           alt="Ayedot - Short Blogging Platform logo"
                           width="500"
                           height="270"
@@ -98,7 +98,7 @@ const Projects: NextPage = (props: any) => {
                       <div className="">
                         <Image
                           className="rounded-xl"
-                          src={index === 0 ? "/ayethumb.jpg" : obj.banner}
+                          src={index === 0 ? "/ARSENAL.png" : obj.banner}
                           alt="Ayedot - Short Blogging Platform logo"
                           width="500"
                           height="270"
