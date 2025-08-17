@@ -305,7 +305,9 @@ const Projects: NextPage = (props: any) => {
 };
 
 export function getStaticProps() {
-  const projects = projectsdata();
+  const allProjects = projectsdata();
+  // Filter to only include the Arsenal project
+  const projects = allProjects.filter(project => project.name === 'Arsenal');
   return {
     props: {
       projects: projects,

@@ -110,38 +110,39 @@ const Gaming: NextPage = () => {
                     <div className="rounded-2xl bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 p-4 flex flex-col relative undefined">
                       <div className="text-white w-full">
                         <img
-                          src="https://64.media.tumblr.com/8ba7ad1ceb0b13c21a97e1644797883f/530ffdf8632abbf3-3f/s500x750/9119bdb64f35ea668304704dd5027cb6292180e7.gifv"
+                          src="/from software sekiro GIF.gif"
                           width="100%"
-                          className="rounded-lg h-50"
+                          className="rounded-lg h-50 object-cover"
+                          alt="Sekiro: Shadows Die Twice Gameplay"
                         />
                       </div>
                       <div className="text-white text-lg font-medium mb-2 mt-4">
-                        Valorant
+                      Sekiro: Shadows Die Twice 
                       </div>
                       <div className="text-white font-normal">
-                        Valorant is a free-to-play first-person hero shooter
-                        developed and published by Riot Games.
+                      Your sword is your tongue — speak only in death.
                       </div>
                     </div>
                     <div className="rounded-2xl bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 p-4 flex flex-col relative undefined">
                       <div className="text-white w-full">
                         <img
-                          src="https://i.pinimg.com/originals/0d/92/28/0d9228d6eb69ab0c57d53fee1d5a4879.gif"
+                          src="/Resident Evil GIF by Regal.gif"
                           width="100%"
-                          className="rounded-lg h-50"
+                          className="rounded-lg h-50 object-cover"
+                          alt="Resident Evil Gameplay"
                         />
                       </div>
                       <div className="text-white text-lg font-medium mb-2 mt-4">
-                        Genshin Impact
+                        Resident Evil 
                       </div>
                       <div className="text-white font-normal">
-                        Genshin Impact is an action role-playing game
+                      A city overrun by zombies, a world drowning in fear
                       </div>
                     </div>
                     <div className="rounded-2xl bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 p-4 flex flex-col relative undefined">
                       <div className="text-white w-full">
                         <img
-                          src="https://media4.giphy.com/media/VgvLyXeQ35gGhzmcVG/giphy-downsized-large.gif"
+                          src="public/ResidentEvil.gif"
                           width="100%"
                           className="rounded-lg h-50"
                         />

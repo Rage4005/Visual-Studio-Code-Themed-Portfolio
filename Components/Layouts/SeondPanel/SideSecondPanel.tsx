@@ -164,12 +164,12 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="Ayedot.js"
+                      name="Arsenal.js"
                       link="/Projects/1"
                       icon={<span className="icons8-nodejs"></span>}
                     />
                   </li>
-                  <li
+                  {/* <li
                     onClick={() => {
                       router.push("/Projects/2");
                       isTabletOrMobile ? props.closeSideMenu() : null;
@@ -179,7 +179,7 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="Ayefan.js"
+                      name=""
                       link="/Projects/2"
                       icon={<span className="icons8-react"></span>}
                     />
@@ -194,7 +194,7 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="Onwos.ts"
+                      name=""
                       link="/Projects/3"
                       icon={<span className="icons8-angularjs"></span>}
                     />
@@ -209,7 +209,7 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="fireflow.js"
+                      name=""
                       link="/Projects/4"
                       icon={<span className="icons8-react"></span>}
                     />
@@ -224,7 +224,7 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="Shortlit.js"
+                      name=""
                       link="/Projects/5"
                       icon={<span className="icons8-nodejs"></span>}
                     />
@@ -239,11 +239,11 @@ export const SideSecondPanel: React.FC<IProps> = (props: any) => {
                     }`}
                   >
                     <SidePanelSubLink
-                      name="Xport.js"
+                      name=""
                       link="/Projects/6"
                       icon={<span className="icons8-react"></span>}
                     />
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             )}
