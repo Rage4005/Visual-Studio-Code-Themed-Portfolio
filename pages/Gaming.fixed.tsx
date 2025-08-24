@@ -1,8 +1,8 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState, ReactElement } from "react";
 import Head from "next/head";
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import { FaGamepad, FaDiscord, FaSteam, FaWindows, FaXbox, FaPlaystation, FaMusic, FaPause } from 'react-icons/fa';
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { FaGamepad, FaDiscord, FaSteam, FaWindows, FaXbox, FaPlaystation } from 'react-icons/fa';
 import { GiPistolGun, GiSwordman, GiCarWheel, GiJoystick } from 'react-icons/gi';
 import { SiEpicgames, SiNintendoswitch } from 'react-icons/si';
 
@@ -16,9 +16,9 @@ interface Game {
   genre: string;
   rating: number;
   hours: number;
-  completion?: number;
-  rank?: string;
+  completion: number;
   platforms: string[];
+  rank?: string;
 }
 
 interface Stat {
@@ -48,7 +48,7 @@ const games: Game[] = [
     title: 'Resident Evil ',
     tagline: 'Survival is just the beginning',
     description: 'A modern reimagining of the genre-defining Resident Evil 4, rebuilt from the ground up to deliver state-of-the-art survival horror.',
-    image: '/Resident%20Evil%20GIF%20by%20Regal.gif',
+    image: '/Resident Evil GIF by Regal.gif',
     icon: <GiPistolGun className="text-3xl text-green-500" />,
     genre: 'Survival Horror',
     rating: 4.9,
@@ -71,21 +71,22 @@ const games: Game[] = [
   },
   {
     id: 4,
-    title: 'Marvel\'s Spider-Man Series',
-    tagline: 'With great power comes great responsibility.',
-    description: 'Experience the complete Spider-Man story across multiple games, featuring thrilling web-swinging through New York City, intense combat, and an emotional narrative that brings Peter Parker\'s journey to life.',
-    image: '/Video%20Game%20Playstation%20GIF%20by%20GIPHY%20Gaming.gif',
-    icon: <GiPistolGun className="text-3xl text-red-500" />,
-    genre: 'Action-Adventure / Open World',
-    rating: 4.9,
-    hours: 120,
-    completion: 95,
-    platforms: ['playstation', 'windows']
+    title: 'Valorant',
+    tagline: 'Defy the limits',
+    description: 'A 5v5 character-based tactical FPS where precise gunplay meets unique agent abilities.',
+    image: 'https://i.gifer.com/7VB.gif',
+    icon: <GiPistolGun className="text-3xl text-red-400" />,
+    genre: 'Tactical FPS',
+    rating: 4.7,
+    hours: 580,
+    completion: 0,
+    rank: 'Immortal',
+    platforms: ['windows']
   }
 ];
 
 // Animation variants
-const containerVariants = {
+const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -97,7 +98,7 @@ const containerVariants = {
   exit: { opacity: 0 }
 };
 
-const itemVariants = {
+const item = {
   hidden: { opacity: 0, y: 20 },
   show: { 
     opacity: 1, 
@@ -153,11 +154,11 @@ const statItem = {
 
 const Gaming: NextPage = (): ReactElement => {
   // State
-  const [isHovering, setIsHovering] = useState<number | null>(null);
-  const [activeGame, setActiveGame] = useState<number | null>(null);
   const [play, setPlay] = useState<boolean>(true);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const [activeGame, setActiveGame] = useState<number | null>(null);
+  const [isHovering, setIsHovering] = useState<number | null>(null);
   const controls = useAnimation();
+  const audioRef = useRef<HTMLAudioElement>(null);
   
   // Stats counter animation
   const [stats, setStats] = useState<Stat[]>([
@@ -166,35 +167,6 @@ const Gaming: NextPage = (): ReactElement => {
     { value: 0, label: 'Achievements', max: 6, suffix: '%' },
     { value: 1, label: 'Current Rank', max: 1, suffix: '' }
   ]);
-
-  // Handle audio player
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = 0.5; // Set volume to 50%
-      // Try to autoplay, but don't show errors if it fails
-      audio.play().catch(() => setPlay(false));
-    }
-    
-    return () => {
-      if (audio) {
-        audio.pause();
-      }
-    };
-  }, []);
-
-  // Toggle play/pause
-  const togglePlayPause = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    
-    if (play) {
-      audio.pause();
-    } else {
-      audio.play().catch(console.error);
-    }
-    setPlay(!play);
-  };
 
   // Get platform icon
   const getPlatformIcon = (platform: string) => {
@@ -214,50 +186,41 @@ const Gaming: NextPage = (): ReactElement => {
     }
   };
 
+  // Handle audio player
+  const managePlayer = (shouldPlay: boolean) => {
+    if (!audioRef.current) return;
+    
+    if (shouldPlay) {
+      audioRef.current.play().catch(error => {
+        console.log('Audio playback failed:', error);
+      });
+    } else {
+      audioRef.current.pause();
+    }
+    setPlay(shouldPlay);
+  };
+
   // Animate stats counter
   useEffect(() => {
     const timer = setInterval(() => {
       setStats(prevStats => 
         prevStats.map(stat => ({
           ...stat,
-          value: stat.value < stat.max ? stat.value + 1 : stat.max
+          value: stat.value < stat.max ? stat.value + 1 : stat.value
         }))
       );
     }, 100);
 
     return () => clearInterval(timer);
   }, []);
-  
+
   // Animate hero section
   useEffect(() => {
     controls.start('visible');
   }, [controls]);
 
-  function managePlayer(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-200 overflow-x-hidden w-full">
-      {/* Audio Player */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <audio 
-          ref={audioRef}
-          loop
-          src="/Bad_Parenting_Title_Song_Old_YazooBest_Part_Slowed_KLICKAUD.mp3"
-          onPlay={() => setPlay(true)}
-          onPause={() => setPlay(false)}
-        />
-        <motion.button
-          onClick={togglePlayPause}
-          className="bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
-          aria-label={play ? 'Pause music' : 'Play music'}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {play ? <FaPause size={20} /> : <FaMusic size={20} />}
-        </motion.button>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-200 overflow-x-hidden">
       <Head>
         <title>Gaming | Arman Khan</title>
         <meta name="description" content="Explore my gaming profile, favorite games, and connect with me for multiplayer sessions" />
@@ -274,7 +237,7 @@ const Gaming: NextPage = (): ReactElement => {
         <div className="absolute inset-0 opacity-10 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
       </div>
 
-      <div className="relative z-10 pt-20 px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative z-10 pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {/* Floating Music Player */}
         <motion.div 
           className="fixed bottom-6 right-6 z-50 flex items-center space-x-3"
@@ -301,7 +264,7 @@ const Gaming: NextPage = (): ReactElement => {
             </button>
           </div>
           <audio ref={audioRef} loop>
-            <source src="/Bad_Parenting_Title_Song_Old_YazooBest_Part_Slowed_KLICKAUD.mp3" type="audio/mp3" />
+            <source src="/music.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
         </motion.div>
@@ -318,7 +281,7 @@ const Gaming: NextPage = (): ReactElement => {
           </motion.h1>
           <motion.p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Exploring immersive worlds, competing in intense battles, and creating unforgettable gaming memories.
-          </motion.p>
+          </m.p>
         </motion.div>
 
         {/* Stats */}
@@ -345,8 +308,8 @@ const Gaming: NextPage = (): ReactElement => {
 
         {/* Games Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24 w-full px-6"
-          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24"
+          variants={container}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -355,46 +318,39 @@ const Gaming: NextPage = (): ReactElement => {
             <motion.div 
               key={game.id} 
               className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10 group relative h-80 w-full"
-              variants={itemVariants}
+              variants={item}
               whileHover="hover"
               onMouseEnter={() => setIsHovering(game.id)}
               onMouseLeave={() => setIsHovering(null)}
               onClick={() => setActiveGame(activeGame === game.id ? null : game.id)}
             >
               <div className="absolute inset-0 bg-cover bg-center transition-all duration-500 group-hover:scale-105" 
-                   style={{ 
-                     backgroundImage: `url(${game.image})`,
-                     backgroundPosition: 'center 30%',
-                     backgroundSize: 'cover',
-                     height: '100%',
-                     width: '100%'
-                   }}>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                   style={{ backgroundImage: `url(${game.image})` }}>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
               </div>
               
               <div className="relative h-full flex flex-col justify-between p-6">
                 <div>
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-2xl font-bold text-white">{game.title}</h3>
-                    <div className="flex space-x-2 bg-black/50 p-1.5 rounded-lg">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-bold text-white">{game.title}</h3>
+                    <div className="flex space-x-2">
                       {game.platforms.map((platform) => (
-                        <span key={`${game.id}-${platform}`} className="text-xl">
+                        <span key={`${game.id}-${platform}`} className="text-lg">
                           {getPlatformIcon(platform)}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <p className="text-purple-300 text-base font-medium mb-4">{game.tagline}</p>
+                  <p className="text-purple-400 text-sm font-medium mb-2">{game.tagline}</p>
+                  <p className="text-gray-300 text-sm line-clamp-3">{game.description}</p>
                 </div>
                 
-                <div className="flex justify-between items-center text-base text-gray-300 bg-black/30 backdrop-blur-sm px-4 py-3 rounded-lg">
-                  <span className="font-medium">{game.genre}</span>
-                  <div className="flex items-center space-x-3">
-                    <span className="flex items-center">
-                      <span className="text-yellow-400 mr-1">★</span> {game.rating}
-                    </span>
-                    <span className="text-gray-500">•</span>
-                    <span>{game.hours} hours</span>
+                <div className="flex justify-between items-center text-sm text-gray-400">
+                  <span>{game.genre}</span>
+                  <div className="flex items-center space-x-2">
+                    <span>★ {game.rating}</span>
+                    <span>•</span>
+                    <span>{game.hours}h</span>
                   </div>
                 </div>
               </div>
@@ -450,78 +406,49 @@ const Gaming: NextPage = (): ReactElement => {
         </motion.div>
 
         {/* CTA Section */}
-        <motion.div className="relative bg-gradient-to-br from-gray-900 via-gray-950 to-gray-900 rounded-2xl p-8 md:p-12 mb-24 overflow-hidden border border-gray-700/50 shadow-2xl mx-6"
+        <motion.div 
+          className="relative bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-2xl p-8 md:p-12 mb-24 overflow-hidden"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          {/* Animated background elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-500/5 rounded-full filter blur-3xl"></div>
-            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/5 rounded-full filter blur-3xl"></div>
-            <div className="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-purple-500/3 via-transparent to-blue-500/3"></div>
-          </div>
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-blue-500/10 rounded-full filter blur-3xl"></div>
           
-          <div className="relative z-10 max-w-5xl mx-auto">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 mb-6">
-                <FaGamepad className="text-2xl text-purple-300" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Let's Play <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Together</span>
-              </h2>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Looking for a gaming partner? Let's team up and dominate the battlefield! Add me on your preferred platform.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mt-12">
-              <motion.a 
-                whileHover={{ y: -5, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+          <div className="relative z-10 text-center max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-4xl font-bold mb-4">Let's Play Together!</h2>
+            <p className="text-gray-300 mb-8">
+              Interested in teaming up for some gaming sessions? Feel free to add me on your preferred platform.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a 
+                href="https://steamcommunity.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-lg transition-colors"
+              >
+                <FaSteam className="mr-2" />
+                Steam
+              </a>
+              <a 
                 href="https://discord.com/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative p-6 rounded-xl bg-gray-800/50 border border-gray-700/50 hover:border-indigo-500/50 transition-all duration-300 overflow-hidden"
+                className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10 flex items-center">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-indigo-600 flex items-center justify-center">
-                    <FaDiscord className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="font-medium text-white">Discord</h3>
-                    <p className="text-sm text-gray-400">@YourUsername</p>
-                  </div>
-                </div>
-              </motion.a>
-              
-              <motion.a 
-                whileHover={{ y: -5, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                href="https://store.epicgames.com/" 
+                <FaDiscord className="mr-2" />
+                Discord
+              </a>
+              <a 
+                href="https://www.xbox.com/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative p-6 rounded-xl bg-gray-800/50 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 overflow-hidden"
+                className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative z-10 flex items-center">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-black flex items-center justify-center">
-                    <SiEpicgames className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="font-medium text-white">Epic Games</h3>
-                    <p className="text-sm text-gray-400">YourEpicID</p>
-                  </div>
-                </div>
-              </motion.a>
-            </div>
-            
-            <div className="mt-10 text-center">
-              <p className="text-sm text-gray-500">
-                Usually online in the evenings and weekends. Let's make some memories! 🚀
-              </p>
+                <FaXbox className="mr-2" />
+                Xbox Live
+              </a>
             </div>
           </div>
         </motion.div>

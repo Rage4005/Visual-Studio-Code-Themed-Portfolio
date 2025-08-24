@@ -1,0 +1,408 @@
+import { NextPage } from "next";
+import React, { useEffect, useRef, useState, ReactElement } from "react";
+import Head from "next/head";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { FaGamepad, FaDiscord, FaSteam, FaWindows, FaXbox, FaPlaystation } from 'react-icons/fa';
+import { GiPistolGun, GiSwordman, GiCarWheel, GiJoystick } from 'react-icons/gi';
+import { SiEpicgames, SiNintendoswitch } from 'react-icons/si';
+
+// Types
+interface Game {
+  id: number;
+  title: string;
+  tagline: string;
+  description: string;
+  image: string;
+  icon: React.ReactNode;
+  genre: string;
+  rating: number;
+  hours: number;
+  completion: number;
+  platforms: string[];
+  rank?: string;
+}
+
+interface Stat {
+  value: number;
+  label: string;
+  max: number;
+  suffix: string;
+}
+
+// Game data
+const games: Game[] = [
+  {
+    id: 1,
+    title: 'Sekiro: Shadows Die Twice',
+    tagline: 'Hesitation is defeat',
+    description: 'Carve your own clever path to vengeance in this award-winning action-adventure from developer FromSoftware, creators of the Dark Souls series.',
+    image: '/222319.gif',
+    icon: <GiSwordman className="text-3xl text-red-500" />,
+    genre: 'Action RPG',
+    rating: 4.8,
+    hours: 120,
+    completion: 87,
+    platforms: ['windows', 'playstation', 'xbox']
+  },
+  {
+    id: 2,
+    title: 'Resident Evil 4',
+    tagline: 'Survival is just the beginning',
+    description: 'A modern reimagining of the genre-defining Resident Evil 4, rebuilt from the ground up to deliver state-of-the-art survival horror.',
+    image: '/Resident Evil GIF by Regal.gif',
+    icon: <GiPistolGun className="text-3xl text-green-500" />,
+    genre: 'Survival Horror',
+    rating: 4.9,
+    hours: 65,
+    completion: 92,
+    platforms: ['windows', 'playstation', 'xbox', 'switch']
+  },
+  {
+    id: 3,
+    title: 'Elden Ring',
+    tagline: 'Rise, Tarnished',
+    description: 'The Golden Order has been broken. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring and become an Elden Lord in the Lands Between.',
+    image: '215613.gif',
+    icon: <GiCarWheel className="text-3xl text-yellow-500" />,
+    genre: 'Action RPG',
+    rating: 4.9,
+    hours: 250,
+    completion: 100,
+    platforms: ['windows', 'playstation', 'xbox']
+  },
+  {
+    id: 4,
+    title: 'Valorant',
+    tagline: 'Defy the limits',
+    description: 'A 5v5 character-based tactical FPS where precise gunplay meets unique agent abilities.',
+    image: 'https://i.gifer.com/7VB.gif',
+    icon: <GiPistolGun className="text-3xl text-red-400" />,
+    genre: 'Tactical FPS',
+    rating: 4.7,
+    hours: 580,
+    completion: 100,
+    rank: 'Immortal',
+    platforms: ['windows']
+  }
+];
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  },
+  exit: { opacity: 0 }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  },
+  hover: {
+    y: -5,
+    scale: 1.02,
+    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+    transition: {
+      duration: 0.2
+    }
+  }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+};
+
+const statsContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const statItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99]
+    }
+  }
+} as const;
+
+const Gaming: NextPage = (): ReactElement => {
+  // State
+  const [play, setPlay] = useState<boolean>(true);
+  const [activeGame, setActiveGame] = useState<number | null>(null);
+  const [isHovering, setIsHovering] = useState<number | null>(null);
+  const controls = useAnimation();
+  const audioRef = useRef<HTMLAudioElement>(null);
+  
+  // Stats counter animation
+  const [stats, setStats] = useState<Stat[]>([
+    { value: 0, label: 'Games Played', max: 8, suffix: '+' },
+    { value: 0, label: 'Hours Played', max: 100, suffix: '+' },
+    { value: 0, label: 'Achievements', max: 6, suffix: '%' },
+    { value: 1, label: 'Current Rank', max: 1, suffix: '' }
+  ]);
+
+  // Handle audio player
+  const managePlayer = (shouldPlay: boolean) => {
+    if (!audioRef.current) return;
+    
+    if (shouldPlay) {
+      audioRef.current.play().catch(error => {
+        console.log('Audio playback failed:', error);
+      });
+    } else {
+      audioRef.current.pause();
+    }
+    setPlay(shouldPlay);
+  };
+
+  // Get platform icon
+  const getPlatformIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'windows':
+        return <FaWindows className="text-blue-400" />;
+      case 'xbox':
+        return <FaXbox className="text-green-500" />;
+      case 'playstation':
+        return <FaPlaystation className="text-blue-400" />;
+      case 'switch':
+        return <SiNintendoswitch className="text-red-500" />;
+      case 'epic':
+        return <SiEpicgames className="text-white" />;
+      default:
+        return null;
+    }
+  };
+
+  // Animate stats counter
+  useEffect(() => {
+    const animateStats = async () => {
+      await controls.start('visible');
+      
+      const interval = setInterval(() => {
+        setStats(prevStats => 
+          prevStats.map(stat => {
+            if (stat.value < stat.max) {
+              return { ...stat, value: stat.value + 1 };
+            }
+            return stat;
+          })
+        );
+      }, 100);
+
+      return () => clearInterval(interval);
+    };
+
+    animateStats();
+  }, [controls]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-200 overflow-x-hidden">
+      <Head>
+        <title>Gaming | Arman Khan</title>
+        <meta name="description" content="Explore my gaming profile, favorite games, and connect with me for multiplayer sessions" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      {/* Floating Music Player */}
+      <motion.div 
+        className="fixed bottom-6 right-6 z-50 flex items-center space-x-3"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+      >
+        <button
+          onClick={() => managePlayer(!play)}
+          className="p-3 bg-purple-600/80 hover:bg-purple-700/90 rounded-full transition-all duration-300 backdrop-blur-sm"
+          aria-label={play ? 'Pause music' : 'Play music'}
+        >
+          {play ? (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          )}
+        </button>
+        <audio ref={audioRef} loop>
+          <source src="/music/gaming-ambient.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </motion.div>
+
+      <div className="relative z-10 pt-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* Hero Section */}
+        <motion.section 
+          className="text-center py-16 md:py-24"
+          initial="hidden"
+          animate="show"
+          variants={containerVariants}
+        >
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 mb-6"
+            variants={fadeIn}
+          >
+            My Gaming Universe
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-400 max-w-3xl mx-auto mb-12"
+            variants={fadeIn}
+          >
+            Exploring immersive worlds, one game at a time. Join me on my gaming journey!
+          </motion.p>
+
+          {/* Stats */}
+          <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16"
+            variants={statsContainer}
+            initial="hidden"
+            animate="show"
+          >
+            {stats.map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+                variants={statItem}
+              >
+                <div className="text-3xl font-bold text-purple-400 mb-2">
+                  {stat.value}{stat.suffix}
+                </div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.section>
+
+        {/* Games Grid */}
+        <motion.section 
+          className="py-16"
+          initial="hidden"
+          animate="show"
+          variants={containerVariants}
+        >
+          <h2 className="text-3xl font-bold mb-12 text-center">My Favorite Games</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {games.map((game) => (
+              <motion.div 
+                key={game.id}
+                className="bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-purple-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10 group relative h-80 w-full"
+                variants={itemVariants}
+                onMouseEnter={() => setIsHovering(game.id)}
+                onMouseLeave={() => setIsHovering(null)}
+              >
+                <div className="relative h-2/3 overflow-hidden">
+                  <img 
+                    src={game.image} 
+                    alt={game.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute bottom-0 left-0 p-6 w-full">
+                    <div className="flex items-center space-x-2 mb-2">
+                      {game.icon}
+                      <h3 className="text-xl font-bold">{game.title}</h3>
+                    </div>
+                    <p className="text-sm text-purple-300">{game.tagline}</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-gray-400">{game.genre}</span>
+                    <div className="flex items-center space-x-1">
+                      {game.platforms.map((platform, idx) => (
+                        <span key={idx} className="text-xs">
+                          {getPlatformIcon(platform)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                      style={{ width: `${game.completion}%` }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-400 mt-1">
+                    <span>Completion: {game.completion}%</span>
+                    <span>{game.hours} hours</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Call to Action */}
+        <motion.section 
+          className="py-20 text-center relative overflow-hidden"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeIn}
+        >
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+          
+          <div className="relative z-10 text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6">Let's Play Together!</h2>
+            <p className="text-gray-400 mb-8">
+              Interested in teaming up for some gaming sessions? Add me on your preferred platform and let's play together!
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a 
+                href="https://steamcommunity.com/id/yourusername" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 bg-[#171a21] hover:bg-[#2a3e5e] text-white px-6 py-3 rounded-lg transition-colors duration-300"
+              >
+                <FaSteam className="text-2xl" />
+                <span>Add on Steam</span>
+              </a>
+              <a 
+                href="https://discord.com/users/yourusername" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 bg-[#5865F2] hover:bg-[#4752c4] text-white px-6 py-3 rounded-lg transition-colors duration-300"
+              >
+                <FaDiscord className="text-2xl" />
+                <span>Connect on Discord</span>
+              </a>
+            </div>
+          </div>
+        </motion.section>
+      </div>
+    </div>
+  );
+};
+
+export default Gaming;
