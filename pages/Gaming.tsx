@@ -290,34 +290,18 @@ const Gaming: NextPage = (): ReactElement => {
         </motion.div>
 
         {/* Hero Section */}
-        <motion.div 
-          className="text-center mb-16 md:mb-24"
-          initial="hidden"
-          animate={controls}
-          variants={fadeIn}
-        >
-          <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-4"
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: {
-                  duration: 0.8,
-                  ease: 'easeOut'
-                }
-              }}
-              className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500"
-            >
-              My Gaming Universe
-            </motion.div>
-          </motion.h1>
-          <motion.p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Exploring immersive worlds, competing in intense battles, and creating unforgettable gaming memories.
-          </motion.p>
-        </motion.div>
+        <div className="relative overflow-hidden py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
+                My Gaming Universe
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+              Exploring immersive worlds, competing in intense battles, and creating unforgettable gaming memories.
+            </p>
+          </div>
+        </div>
 
         {/* Stats */}
         <motion.div 
