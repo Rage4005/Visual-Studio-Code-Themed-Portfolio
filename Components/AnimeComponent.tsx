@@ -74,7 +74,7 @@ const AnimeComponent: React.FC = () => {
           ) : (
             <>
               <FaTv className="w-7 h-7 text-blue-400" />
-              <span className="ml-2 text-sm font-medium">Anime Mode</span>
+              <span className="ml-2 text-sm font-medium text-gray-900">Anime Mode</span>
             </>
           )}
         </motion.button>
@@ -137,12 +137,10 @@ const AnimeComponent: React.FC = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <h1 className="text-5xl md:text-7xl font-black tracking-tight" style={{
-                  background: darkMode 
+                <h1 className="text-5xl md:text-7xl font-black tracking-tight bg-clip-text text-transparent" style={{
+                  backgroundImage: darkMode 
                     ? 'linear-gradient(to right, #3b82f6, #8b5cf6)' 
-                    : 'linear-gradient(to right, #1f2937, #374151)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
+                    : 'linear-gradient(to right, #1f2937, #374151)'
                 }}>
                   {darkMode ? '物語の世界へ' : '漫画の魂'}
                 </h1>
