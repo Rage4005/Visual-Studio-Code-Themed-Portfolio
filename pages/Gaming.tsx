@@ -233,31 +233,18 @@ const Gaming: NextPage = (): ReactElement => {
     controls.start('visible');
   }, [controls]);
 
-  function managePlayer(arg0: boolean): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-950 to-black text-gray-200 overflow-x-hidden w-full">
-      {/* Audio Player */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <audio 
-          ref={audioRef}
-          loop
-          src="/Bad_Parenting_Title_Song_Old_YazooBest_Part_Slowed_KLICKAUD.mp3"
-          onPlay={() => setPlay(true)}
-          onPause={() => setPlay(false)}
-        />
-        <motion.button
-          onClick={togglePlayPause}
-          className="bg-purple-600 hover:bg-purple-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
-          aria-label={play ? 'Pause music' : 'Play music'}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {play ? <FaPause size={20} /> : <FaMusic size={20} />}
-        </motion.button>
-      </div>
+      {/* Audio Player - Single instance */}
+      <audio 
+        ref={audioRef}
+        loop
+        src="/Bad_Parenting_Title_Song_Old_YazooBest_Part_Slowed_KLICKAUD.mp3"
+        onPlay={() => setPlay(true)}
+        onPause={() => setPlay(false)}
+        className="hidden"
+      />
       <Head>
         <title>Gaming | Arman Khan</title>
         <meta name="description" content="Explore my gaming profile, favorite games, and connect with me for multiplayer sessions" />
@@ -284,7 +271,7 @@ const Gaming: NextPage = (): ReactElement => {
         >
           <div className="bg-black/60 backdrop-blur-md rounded-full p-3 shadow-lg border border-white/10">
             <button 
-              onClick={() => managePlayer(!play)}
+              onClick={togglePlayPause}
               className="text-white hover:text-purple-400 transition-colors"
               aria-label={play ? 'Pause music' : 'Play music'}
             >
@@ -300,10 +287,6 @@ const Gaming: NextPage = (): ReactElement => {
               )}
             </button>
           </div>
-          <audio ref={audioRef} loop>
-            <source src="/Bad_Parenting_Title_Song_Old_YazooBest_Part_Slowed_KLICKAUD.mp3" type="audio/mp3" />
-            Your browser does not support the audio element.
-          </audio>
         </motion.div>
 
         {/* Hero Section */}
@@ -313,8 +296,23 @@ const Gaming: NextPage = (): ReactElement => {
           animate={controls}
           variants={fadeIn}
         >
-          <motion.h1 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-            My Gaming Universe
+          <motion.h1 
+            className="text-4xl md:text-6xl font-bold mb-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: 'easeOut'
+                }
+              }}
+              className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500"
+            >
+              My Gaming Universe
+            </motion.div>
           </motion.h1>
           <motion.p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
             Exploring immersive worlds, competing in intense battles, and creating unforgettable gaming memories.
